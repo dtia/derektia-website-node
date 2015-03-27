@@ -1,0 +1,12 @@
+#tagmap {
+	float: left;
+}
+
+#source {
+	float: right;
+	width: 80%;
+}
+
+#search-bar {
+	margin-bottom: 20px;
+}

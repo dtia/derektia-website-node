@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript" src="js/main.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	
+    <title>Slack Coding Challenge</title>    
+</head>
+<body>
+  <form id="search-bar">
+      <label for="url" id="url_label">Enter a URL: </label>
+      <input name="url" id="url" type="text" />
+      <button type="button" href="#" id="continue" class="medium blue" onclick="getPage()">Search &raquo;</button>
+  </form>
+
+  <div id="content">
+  	<table id="tagmap"></table>
+  	<div id="source"></div>
+  </div>
+</body>
+</html>
+
