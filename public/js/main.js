@@ -36,38 +36,24 @@ function generateTagTable(tagMap) {
 function generateSourceWithHighlightTags(tagMap, source) {
 	
 	Object.keys(tagMap).forEach(function(tag) {
-
-
-		// var thisIndex = source.indexOf(escapedTag);
-		// var indexStart = 0;
-
-		// var escapedTag = '<' + tag + '>';
-		// var wrappedTag = '<span class="' + tag + '">' + escapedTag + '</span>';
-		// source = source.replace(escapedTag, wrappedTag);
-
-
-
-		// while(thisIndex > -1 && thisIndex < source.length) {
-		// 	indexStart = 0;
-		// 	var escapedTag = escape('<' + tag + '>');
-		// 	thisIndex = source.indexOf(escapedTag, indexStart);
-
-		// 	// detach first half of string
-		// 	var firstHalf = source.slice(indexStart, thisIndex);
-		// 	// concat <span> with escaped tag
-		// 	var wrappedTag = '<span>' + escapedTag + '</span>';
-		// 	console.log(wrappedTag);
-		// 	var secondHalf = source.slice(thisIndex+escapedTag.length);
-		// 	source = firstHalf + wrappedTag + secondHalf;
-
-		// 	indexStart = thisIndex + escapedTag.length;
-		// 	console.log('index start', indexStart);
-		// 	console.log('thisindex', thisIndex);
-		// 	//console.log(source);
-		// }
+		var searchTag = '<' + tag + '>';
+		var wrappedTag = '|SPLITME|<span class="' + tag + '">' + searchTag + '</span>|SPLITME|';
+		source = source.replace(searchTag, wrappedTag);
 	});
 
-	//console.log(source);
+	var splitLines = source.split('|SPLITME|');
 	
-	$('#source').text(source);
+	var sourceElement = $('#source');
+	splitLines.forEach(function(line, index) {
+		
+		if (index % 2 === 1) {
+			sourceElement.append(line);
+		}
+		else {
+			var text = document.createTextNode(line);
+			sourceElement[0].appendChild(text);
+		}
+	});
+	
+	$('#source').html(sourceElement.html());
 }
