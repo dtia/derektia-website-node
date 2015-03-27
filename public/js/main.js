@@ -38,10 +38,20 @@ function generateTagTable(tagMap) {
 function generateSourceWithHighlightTags(tagMap, source) {
 	
 	Object.keys(tagMap).forEach(function(tag) {
-		var searchTag = '<' + tag + '>';
-		var wrappedTag = '|SPLITME|<span class="' + tag + '"> ' + encodeURI(searchTag) + ' </span>|SPLITME|';
-		source = source.replace(searchTag, wrappedTag);
+		if (tag !== 'span') {
+			var searchTag = '<' + tag + '>';
+			var wrappedTag = '|SPLITME|<span class="' + tag + '"> ' + encodeURI(searchTag) + ' </span>|SPLITME|';
+			var re = new RegExp(searchTag, 'g');
+			source = source.replace(re, wrappedTag);
+		}
 	});
+
+	if(Object.keys(tagMap).indexOf('span') > -1) {
+		var searchTag = '<span>';
+		var wrappedTag = '|SPLITME|<span class="span"> ' + encodeURI(searchTag) + ' </span>|SPLITME|';
+		var re = new RegExp(searchTag, 'g');
+		source = source.replace(re, wrappedTag);
+	}
 
 	var splitLines = source.split('|SPLITME|');
 	var sourceElement = $('#source');
@@ -60,11 +70,13 @@ function generateSourceWithHighlightTags(tagMap, source) {
 
 function highlightTag(tag) {
 	var tagObjects = $('#source').find('.' + tag);
-	for (var i=0; i < tagObjects.length; i++) {
-		$(tagObjects[i]).addClass('highlight');
+	if (tagObjects.length) {
+		for (var i=0; i < tagObjects.length; i++) {
+			$(tagObjects[i]).addClass('highlight');
+		}
+		unhighlightTag(lastHighlightedTag);
+		lastHighlightedTag = tag;
 	}
-	unhighlightTag(lastHighlightedTag);
-	lastHighlightedTag = tag;
 }
 
 function unhighlightTag(tag) {
@@ -72,6 +84,6 @@ function unhighlightTag(tag) {
 		var tagObjects = $('#source').find('.' + tag);
 		for (var i=0; i < tagObjects.length; i++) {
 			$(tagObjects[i]).removeClass('highlight');
-		}	
+		}
 	}
 }
