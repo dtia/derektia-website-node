@@ -29,7 +29,7 @@ app.post('/content', function(req, res, next) {
             res.send(error);
         }
 
-        if (response.statusCode == 200) {
+        if (response && response.statusCode == 200) {
             var tagMap = Util.parseTags(body);
             res.send({
                 tagMap: tagMap,
