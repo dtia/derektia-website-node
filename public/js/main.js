@@ -11,12 +11,22 @@ function getPage() {
 			url: url
 		},
 		success: function(data) {
-			setHTML(data);
+			if (data.error)
+				setError(data.error);
+			else
+				setHTML(data);
 		}
 	});
 }
 
+function setError(errorMessage) {
+	$('#status').text(errorMessage);
+	$('#status').show();
+}
+
 function setHTML(data) {
+	$('#status').hide();
+	$('#tagmap-title').show();
 	generateTagTable(data.tagMap);
 	generateSourceWithHighlightTags(data.tagMap, data.source);
 }
@@ -33,25 +43,28 @@ function generateTagTable(tagMap) {
 	});
 
 	$('#tagmap').html(tableObject.html());
+	$('#tagmap').show();
 }
 
 function generateSourceWithHighlightTags(tagMap, source) {
 	
+	if(Object.keys(tagMap).indexOf('span') > -1) {
+		var searchTag = 'span';
+		var wrappedTag = '|SPLITME|<span class="span"> ' + searchTag + ' </span>|SPLITME|';
+		var re = new RegExp(searchTag, 'g');
+		source = source.replace(re, wrappedTag);
+	}
+
 	Object.keys(tagMap).forEach(function(tag) {
 		if (tag !== 'span') {
-			var searchTag = '<' + tag + '>';
-			var wrappedTag = '|SPLITME|<span class="' + tag + '"> ' + encodeURI(searchTag) + ' </span>|SPLITME|';
+			var searchTag = '<' + tag ;
+			var wrappedTag = '|SPLITME|<span class="' + tag + '"> ' + tag + ' </span>|SPLITME|';
 			var re = new RegExp(searchTag, 'g');
 			source = source.replace(re, wrappedTag);
 		}
 	});
 
-	if(Object.keys(tagMap).indexOf('span') > -1) {
-		var searchTag = '<span>';
-		var wrappedTag = '|SPLITME|<span class="span"> ' + encodeURI(searchTag) + ' </span>|SPLITME|';
-		var re = new RegExp(searchTag, 'g');
-		source = source.replace(re, wrappedTag);
-	}
+	
 
 	var splitLines = source.split('|SPLITME|');
 	var sourceElement = $('#source');

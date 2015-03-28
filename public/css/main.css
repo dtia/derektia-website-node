@@ -1,6 +1,7 @@
 #tagmap {
 	float: left;
 	border: 1px solid black;
+	margin-left: 30px;
 }
 
 #tagmap td {
@@ -18,4 +19,13 @@
 
 .highlight {
 	background-color: yellow;
+}
+
+#status {
+	color: red;
+}
+
+#tagmap-title {
+	margin-bottom: 20px;
+	display: block;
 }

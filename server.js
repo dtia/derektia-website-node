@@ -26,14 +26,21 @@ app.post('/content', function(req, res, next) {
 
     request(url, function (error, response, body) {
         if (error) {
-            res.send(error);
+            return res.send({
+                error: 'Error loading page'
+            });
         }
 
         if (response && response.statusCode == 200) {
             var tagMap = Util.parseTags(body);
-            res.send({
+            return res.send({
                 tagMap: tagMap,
                 source: body
+            });
+        }
+        else {
+            return res.send({
+                error: 'Error loading page'
             });
         }
     });

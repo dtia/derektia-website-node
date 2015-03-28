@@ -10,6 +10,7 @@
     <title>Slack Coding Challenge</title>    
 </head>
 <body>
+	<h1>Welcome to Derek's Slack Coding Challenge</h1>
   <form id="search-bar">
       <label for="url" id="url_label">Enter a URL: </label>
       <input name="url" id="url" type="text" />
@@ -17,7 +18,11 @@
   </form>
 
   <div id="content">
-  	<table id="tagmap"></table>
+  	<div id="status"></div>
+  	<div id="table-section">
+  		<span id="tagmap-title" style="display: none;">Click on any tag to highlight tags in the source on the right:</span>
+  		<table id="tagmap" style="display: none;"></table>
+  	</div>
   	<div id="source"></div>
   </div>
 </body>
