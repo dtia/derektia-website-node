@@ -1,7 +1,7 @@
 {
-  "name": "slack-challenge",
+  "name": "derektia.com",
   "version": "0.0.1",
-  "description": "Coding challenge for Slack",
+  "description": "Derek\'s website",
   "main": "routes.js",
   "dependencies": {
     "express": "3.19.2",
